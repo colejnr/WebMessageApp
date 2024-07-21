@@ -35,4 +35,18 @@ namespace WebChatApp.Utils
 			}
 		}
 
+		public static string Decrypt(string encryptedMessage, string key)
+		{
+			byte[] fullCipher = Convert.FromBase64String(encryptedMessage);
+
+			using (Aes aesAlg = Aes.Create())
+			{
+				byte[] iv = new byte[aesAlg.BlockSize / 8];
+				byte[] cipherText = new byte[fullCipher.Length - iv.Length];
+
+				Array.Copy(fullCipher, iv, iv.Length);
+				Array.Copy(fullCipher, iv.Length, cipherText, 0, cipherText.Length);
+
+				aesAlg.Key = GetHashedKey(key);
+				aesAlg.IV = iv;
 
