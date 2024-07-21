@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebChatApp.Data;
+using WebChatApp.Models;
+using WebChatApp.Utils;
 
 namespace WebChatApp.Controllers
 {
@@ -15,7 +17,18 @@ namespace WebChatApp.Controllers
         {
             return View();
         }
-    
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMessage(CreateMessage createMessage)
+        {
+            Message message = new Message();
+            message.Content = EncryptionHelper.Encrypt(createMessage.Message, createMessage.SecretKey);
+            await _context.Messages.AddAsync(message);
+            await _context.SaveChangesAsync();
+            return View(message);
+        }
+
 
     }
 }
