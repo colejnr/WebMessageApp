@@ -61,3 +61,13 @@ namespace WebChatApp.Utils
 			}
 		}
 
+		private static byte[] GetHashedKey(string key)
+		{
+			using (SHA256 sha256 = SHA256.Create())
+			{
+				return sha256.ComputeHash(Encoding.UTF8.GetBytes(key));
+			}
+		}
+	}
+}
+
