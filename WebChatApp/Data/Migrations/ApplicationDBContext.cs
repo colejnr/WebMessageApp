@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using WebChatApp.Models;
 
-namespace WebChatApp.Data.Migrations
+namespace WebChatApp.Data
 {
     public class ApplicationDBContext : IdentityDbContext
     {

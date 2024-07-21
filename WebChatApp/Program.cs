@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebChatApp.Data.Migrations;
+using WebChatApp.Data;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 
