@@ -28,7 +28,30 @@ namespace WebChatApp.Controllers
             await _context.SaveChangesAsync();
             return View(message);
         }
+        public async Task<IActionResult> ViewMessage(string id, DecryptMessage decryptMessage)
+        {
+            Message? message = await _context.Messages.FindAsync(id);
+            if (message == null)
+            {
+                throw new Exception("Message not found");
 
+            }
+            ViewMessage viewMessage = new ViewMessage();
+            viewMessage.Id = message.Id;
+            try
+            {
+                viewMessage.EncryptedContent = message.Content;
+                viewMessage.DecryptedContent = EncryptionHelper.Decrypt(message.Content, decryptMessage.SecretKey);
+                viewMessage.TimeCreated = message.TimeCreated;
+                return View(viewMessage);
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Invalid secret key";
+                return RedirectToAction("DecryptMessage", new { id });
+            }
+
+        }
 
     }
 }
