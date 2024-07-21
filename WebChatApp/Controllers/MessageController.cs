@@ -52,6 +52,18 @@ namespace WebChatApp.Controllers
             }
 
         }
+        public async Task<IActionResult> DecryptMessage(string Id)
+        {
+            Message? message = await _context.Messages.FindAsync(Id);
+            if (message == null)
+            {
+                throw new Exception("Message not found");
 
+            }
+            DecryptMessage decryptMessage = new DecryptMessage();
+            decryptMessage.Id = message.Id;
+
+            return View(decryptMessage);
+        }
     }
 }
