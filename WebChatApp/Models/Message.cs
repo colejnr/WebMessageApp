@@ -4,7 +4,7 @@
     {
         public string Id { get; set; }
         public string Content { get; set; }
-        public string TimeCreated { get; set; }
+        public DateTime TimeCreated { get; set; }
 
         public Message() 
         {
