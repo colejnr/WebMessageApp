@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebChatApp.Data;
 
 namespace WebChatApp.Controllers
 {
     public class MessageController : Controller
     {
         private readonly ApplicationDBContext _context;
-        public readonly MessageController(ApplicationDBContext context)
+        public MessageController(ApplicationDBContext context)
         {
             _context = context;
         }
@@ -14,8 +15,7 @@ namespace WebChatApp.Controllers
         {
             return View();
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+    
 
     }
 }
