@@ -11,4 +11,14 @@ namespace ChatApp.Models
         public string SenderEmail { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public SmtpSettings()
+        {
+            Server = string.Empty;
+            SenderName = string.Empty;
+            SenderEmail = string.Empty;
+            Username = string.Empty;
+            Password = string.Empty;
+        }
     }
+
+}
