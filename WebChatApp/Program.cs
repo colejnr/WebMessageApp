@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebChatApp.Data;
-using Microsoft.EntityFrameworkCore.Sqlite;
-using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 using WebChatApp.Models;
 using WebChatApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -15,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDBContext>(); 
+    .AddEntityFrameworkStores<ApplicationDBContext>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
