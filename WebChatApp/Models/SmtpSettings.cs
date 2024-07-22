@@ -1,7 +1,7 @@
 using System;
 using Org.BouncyCastle.Tls;
 
-namespace ChatApp.Models
+namespace WebChatApp.Models
 {
     public class SmtpSettings
     {
