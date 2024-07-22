@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebChatApp.Data;
 using WebChatApp.Models;
+using WebChatApp.Services;
 using WebChatApp.Utils;
 
 namespace WebChatApp.Controllers
@@ -8,9 +9,11 @@ namespace WebChatApp.Controllers
     public class MessageController : Controller
     {
         private readonly ApplicationDBContext _context;
-        public MessageController(ApplicationDBContext context)
+        private readonly EmailService _emailService;
+        public MessageController(ApplicationDBContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
         // GET: /<controller>/
         public IActionResult Index()
