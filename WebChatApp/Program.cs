@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using WebChatApp.Data;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
+using WebChatApp.Models;
+using WebChatApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDBContext>(); 
 builder.Services.AddControllersWithViews();
 
-
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.AddTransient<EmailService>();
 
 var app = builder.Build();
 

@@ -39,6 +39,7 @@ namespace WebChatApp.Controllers
                 var emailSubject = "Your Secret Key";
                 var emailMessage = $"Your secret key is: {model.SecretKey}, Please do not share";
                 await _emailService.SendEmailAsync(model.Email, emailSubject, emailMessage);
+
                 Message messages = new Message();
                 messages.Content = EncryptionHelper.Encrypt(createMessage.Message, createMessage.SecretKey);
                 await _context.Messages.AddAsync(messages);
