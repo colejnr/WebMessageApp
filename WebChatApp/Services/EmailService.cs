@@ -20,5 +20,10 @@ public class Class1
 			Text = message
 		};
 
+		using (var client = new SmtpClient())
+		{
+
+		}
+
 	}
 }
