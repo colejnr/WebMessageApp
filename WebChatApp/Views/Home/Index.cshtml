@@ -9,6 +9,7 @@
         <form class="message-form" asp-action="CreateMessage" asp-controller="Message">
             <textarea asp-for="Message" placeholder="Enter a message" class="form-control mb-3" rows="5" required></textarea>
             <input asp-for="SecretKey" placeholder="Enter secret key" class="form-control mb-2" required />
+            <input asp-for="Email" placeholder="Enter there email" class="form-control mb-2" required/>
             <button class="btn btn-primary">Create Message</button>
         </form>
     </div>
