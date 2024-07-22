@@ -17,7 +17,7 @@ namespace WebChatApp.Services
 			_smtpSettings = smtpSettings.Value;
 		}
 
-		public async Task SendEmaiAsync(string recipientEmail, string message)
+		public async Task SendEmaiAsync(string recipientEmail, string subject, string message)
 		{
 			var emailMessage = new MimeMessage();
 			emailMessage.From.Add(new MailboxAddress(_smtpSettings.SenderName, _smtpSettings.SenderEmail));
