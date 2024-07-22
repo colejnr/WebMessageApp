@@ -3,3 +3,13 @@
 @{
     ViewData["Title"] = "Message Created";
 }
+<div class="text-center">
+    <h1 class="display-4">Message Created</h1>
+    <p>Your message has been successfully created and stored.</p>
+    <p>Share the following link with the recipient:</p>
+    <p>
+        <a href="@Url.Action("ViewMessage", "Message", new { id = ViewBag.MessageId })">
+            @Url.Action("ViewMessage", "Message", new { id = ViewBag.MessageId })
+        </a>
+    </p>
+</div>
