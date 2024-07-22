@@ -39,11 +39,13 @@ namespace WebChatApp.Controllers
                 var emailSubject = "Your Secret Key";
                 var emailMessage = $"Your secret key is: {model.SecretKey}, Please do not share";
                 await _emailService.SendEmailAsync(model.Email, emailSubject, emailMessage);
-            Message message = new Message();
-            message.Content = EncryptionHelper.Encrypt(createMessage.Message, createMessage.SecretKey);
-            await _context.Messages.AddAsync(message);
-            await _context.SaveChangesAsync();
-            return View(message);
+                Message messages = new Message();
+                messages.Content = EncryptionHelper.Encrypt(createMessage.Message, createMessage.SecretKey);
+                await _context.Messages.AddAsync(messages);
+                await _context.SaveChangesAsync();
+                return View(messages);
+            }
+            return View(model);
         }
         public async Task<IActionResult> ViewMessage(string id, DecryptMessage decryptMessage)
         {
