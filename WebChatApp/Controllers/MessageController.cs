@@ -23,8 +23,22 @@ namespace WebChatApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateMessage(CreateMessage createMessage)
+        public async Task<IActionResult> CreateMessage(CreateMessage model, CreateMessage createMessage)
         {
+            if (ModelState.IsValid)
+            {
+                var message = new Message
+                {
+                    Content = model.Message,
+                    TimeCreated = DateTime.Now
+                };
+                _context.Messages.Add(message);
+                await _context.SaveChangesAsync();
+
+                // Send email with secret key
+                var emailSubject = "Your Secret Key";
+                var emailMessage = $"Your secret key is: {model.SecretKey}, Please do not share";
+                await _emailService.SendEmailAsync(model.Email, emailSubject, emailMessage);
             Message message = new Message();
             message.Content = EncryptionHelper.Encrypt(createMessage.Message, createMessage.SecretKey);
             await _context.Messages.AddAsync(message);
