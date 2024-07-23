@@ -3,6 +3,7 @@ using WebChatApp.Data;
 using WebChatApp.Models;
 using WebChatApp.Services;
 using WebChatApp.Utils;
+using System.Threading.Tasks;
 
 namespace WebChatApp.Controllers
 {
@@ -10,11 +11,13 @@ namespace WebChatApp.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly EmailService _emailService;
+
         public MessageController(ApplicationDBContext context, EmailService emailService)
         {
             _context = context;
             _emailService = emailService;
         }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -27,9 +30,13 @@ namespace WebChatApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Encrypt the message
+                var encryptedContent = EncryptionHelper.Encrypt(model.Message, model.SecretKey);
+
+                // Create and save the message
                 var message = new Message
                 {
-                    Content = model.Message,
+                    Content = encryptedContent,
                     TimeCreated = DateTime.Now
                 };
                 _context.Messages.Add(message);
@@ -48,21 +55,25 @@ namespace WebChatApp.Controllers
             }
             return View(model);
         }
+
         public async Task<IActionResult> ViewMessage(string id, DecryptMessage decryptMessage)
         {
-            Message? message = await _context.Messages.FindAsync(id);
+            var message = await _context.Messages.FindAsync(id);
             if (message == null)
             {
                 throw new Exception("Message not found");
-
             }
-            ViewMessage viewMessage = new ViewMessage();
-            viewMessage.Id = message.Id;
+
+            var viewMessage = new ViewMessage
+            {
+                Id = message.Id,
+                EncryptedContent = message.Content,
+                TimeCreated = message.TimeCreated
+            };
+
             try
             {
-                viewMessage.EncryptedContent = message.Content;
                 viewMessage.DecryptedContent = EncryptionHelper.Decrypt(message.Content, decryptMessage.SecretKey);
-                viewMessage.TimeCreated = message.TimeCreated;
                 return View(viewMessage);
             }
             catch (Exception)
@@ -70,18 +81,20 @@ namespace WebChatApp.Controllers
                 TempData["ErrorMessage"] = "Invalid secret key";
                 return RedirectToAction("DecryptMessage", new { id });
             }
-
         }
-        public async Task<IActionResult> DecryptMessage(string Id)
+
+        public async Task<IActionResult> DecryptMessage(string id)
         {
-            Message? message = await _context.Messages.FindAsync(Id);
+            var message = await _context.Messages.FindAsync(id);
             if (message == null)
             {
                 throw new Exception("Message not found");
-
             }
-            DecryptMessage decryptMessage = new DecryptMessage();
-            decryptMessage.Id = message.Id;
+
+            var decryptMessage = new DecryptMessage
+            {
+                Id = message.Id
+            };
 
             return View(decryptMessage);
         }
