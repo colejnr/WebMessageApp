@@ -1,9 +1,11 @@
 ﻿@model WebChatApp.Models.Message
 @{
     ViewData["Title"] = "Created Message";
+    var baseUrl = $"{Request.Scheme}://{Request.Host.Value}";
 }
+
 <div class="text-center">
-    <h3>Your Message has been created created</h3>
+    <h3>Your Message has been created</h3>
     <h4>Share the link below</h4>
-    <input class="form-control" value="https://localhost:7128@(Url.Action("DecryptMessage", "Message", new { Id = Model.Id}))" />
+    <input class="form-control" value="@($"{baseUrl}{Url.Action("DecryptMessage", "Message", new { Id = Model.Id })}")" />
 </div>
