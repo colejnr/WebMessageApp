@@ -1,7 +1,7 @@
 ﻿@model WebChatApp.Models.Message
 @{
     ViewData["Title"] = "Created Message";
-    var baseUrl = $"{Request.Scheme}://{Request.Host.Value}";
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host.Value}";
 }
 
 <div class="text-center">
